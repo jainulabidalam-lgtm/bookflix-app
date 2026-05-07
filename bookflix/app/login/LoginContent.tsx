@@ -1,10 +1,20 @@
 "use client";
 
 import { signInWithGoogle } from "@/app/lib/auth-utils";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 export default function LoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // SAFETY CATCH: If we land here with an auth code, redirect to the callback handler
+  useEffect(() => {
+    const code = searchParams.get('code');
+    if (code) {
+      router.push(`/auth/callback?code=${code}`);
+    }
+  }, [searchParams, router]);
 
   return (
     <main 
