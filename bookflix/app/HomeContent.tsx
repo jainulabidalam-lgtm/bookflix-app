@@ -13,12 +13,13 @@ import type { Book } from "./lib/mockData";
 
 interface HomeContentProps {
   initialBooks: Book[];
+  user: any;
 }
 
-export default function HomeContent({ initialBooks }: HomeContentProps) {
+export default function HomeContent({ initialBooks, user: initialUser }: HomeContentProps) {
   const [mounted, setMounted] = useState(false);
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>(initialUser);
+  const [loading, setLoading] = useState(!initialUser);
   const [myList, setMyList] = useState<Book[]>([]);
   const [continueReading, setContinueReading] = useState<Book[]>([]);
 
@@ -68,8 +69,15 @@ export default function HomeContent({ initialBooks }: HomeContentProps) {
   const featuredBooks = MOCK_BOOKS.filter(b => b.is_verified).slice(0, 5);
   const allBooks = MOCK_BOOKS;
 
-  if (loading || (!user && !localStorage.getItem("dev_user"))) {
-    return <main className="min-h-screen" style={{ background: "#0b0b0f" }} />; // Simple black screen while checking auth
+  // No more "Blank Screen" if we already have the user from the server!
+  if (loading && !user && !localStorage.getItem("dev_user")) {
+    return (
+      <main className="min-h-screen flex items-center justify-center" style={{ background: "#0b0b0f" }}>
+        <div className="animate-pulse text-[#A47DAB] font-cinzel text-xl tracking-widest">
+          LOADING BOOKFLIX...
+        </div>
+      </main>
+    );
   }
 
   return (

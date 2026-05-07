@@ -14,5 +14,5 @@ export default async function HomePage() {
   }
 
   const books = await getServerAllBooks();
-  return <HomeContent initialBooks={books} />;
+  return <HomeContent initialBooks={books} user={user} />;
 }
