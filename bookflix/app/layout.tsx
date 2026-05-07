@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import LanguageSelector from "./components/LanguageSelector";
+import AuthSafetyHandler from "./components/AuthSafetyHandler";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -63,6 +64,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         <LanguageSelector />
+        <AuthSafetyHandler />
         {children}
       </body>
     </html>
